@@ -20,10 +20,13 @@ public class CompressURL implements ICompressURL {
 		if (!isURLValid(longURL)) {
 			return null;
 		}
+		longURL = longURL.trim();
+		if(longURL.endsWith("/")) {
+			longURL = longURL.substring(0, longURL.lastIndexOf("/"));
+		}
 		PreparedStatement selectPreparedStatement = null;
 		ResultSet selectRS = null;
 		String id = null;
-
 		selectPreparedStatement = connection.prepareStatement("SELECT * FROM URL WHERE LONG_URL=?");
 		selectPreparedStatement.setString(1, longURL);
 		selectRS = selectPreparedStatement.executeQuery();
