@@ -15,11 +15,23 @@ import org.h2.tools.DeleteDbFiles;
 import com.service.IDBConnectionManager;
 import com.service.impl.DBConnectionManager;
 
+/**
+ * AppContextListener is responsible for creating the in-memory H2 database and
+ * setting the connection into the ServletContext so that it can be reused
+ * throughout the application.
+ * 
+ * @author colingray
+ *
+ */
 @WebListener
 public class AppContextListener implements ServletContextListener {
 
 	final static Logger logger = Logger.getLogger(AppContextListener.class);
 
+	/**
+	 * Retrieves the DB configuration from the web.xml and creates/initializes the
+	 * H2 DB connection
+	 */
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		ServletContext ctx = servletContextEvent.getServletContext();
 		String dbURL = ctx.getInitParameter("dbURL");
@@ -37,6 +49,12 @@ public class AppContextListener implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Initializes the H2 DB by creating the schema
+	 * 
+	 * @param connection
+	 * @throws Exception
+	 */
 	private void initializeDatabase(Connection connection) throws Exception {
 		PreparedStatement createPreparedStatement = null;
 		DeleteDbFiles.execute("~", "URL", true);
@@ -48,6 +66,9 @@ public class AppContextListener implements ServletContextListener {
 		logger.info("DB Schema initialized successfully");
 	}
 
+	/**
+	 * closes the DB connection when the Application Context is destroyed
+	 */
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
 		Connection con = (Connection) servletContextEvent.getServletContext().getAttribute("DBConnection");
 		try {

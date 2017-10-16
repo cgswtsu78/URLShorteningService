@@ -23,6 +23,12 @@ import com.service.impl.CompressURL;
 import com.service.impl.DBConnectionManager;
 import com.service.impl.DecompressURL;
 
+/**
+ * Test suite to test URLShortener project
+ * 
+ * @author colingray
+ *
+ */
 public class URLShortenerTest extends Mockito {
 	final static Logger logger = Logger.getLogger(URLShortenerTest.class);
 	private static ICompressURL compressURL = new CompressURL();

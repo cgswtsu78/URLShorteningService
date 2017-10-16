@@ -8,6 +8,12 @@ import org.apache.log4j.Logger;
 
 import com.service.IDBConnectionManager;
 
+/**
+ * Initializes the DB connection
+ * 
+ * @author colingray
+ *
+ */
 public class DBConnectionManager implements IDBConnectionManager {
 	final static Logger logger = Logger.getLogger(DBConnectionManager.class);
 	private static final String DB_DRIVER = "org.h2.Driver";
@@ -29,6 +35,9 @@ public class DBConnectionManager implements IDBConnectionManager {
 
 	}
 
+	/**
+	 * returns the DB connection
+	 */
 	public Connection getConnection() {
 		return this.connection;
 	}

@@ -13,15 +13,24 @@ import org.apache.log4j.Logger;
 
 import com.service.ICompressURL;
 
+/**
+ * Responsible for the business rules for compressing a URL into a shortened URL
+ * 
+ * @author colingray
+ *
+ */
 public class CompressURL implements ICompressURL {
 	final static Logger logger = Logger.getLogger(CompressURL.class);
 
+	/**
+	 * adds the long URL to the database if its valid
+	 */
 	public String addURL(Connection connection, String longURL) throws SQLException {
 		if (!isURLValid(longURL)) {
 			return null;
 		}
 		longURL = longURL.trim();
-		if(longURL.endsWith("/")) {
+		if (longURL.endsWith("/")) {
 			longURL = longURL.substring(0, longURL.lastIndexOf("/"));
 		}
 		PreparedStatement selectPreparedStatement = null;
@@ -36,11 +45,14 @@ public class CompressURL implements ICompressURL {
 			logger.info("URL already in use, return existing ID:" + id);
 		} else {
 			logger.info("Inserting new URL:" + longURL);
-			id = insertWithPreparedStatement(connection, longURL);
+			id = insertURL(connection, longURL);
 		}
 		return id;
 	}
 
+	/**
+	 * attempts to connect to the URL to determine its validity
+	 */
 	public boolean isURLValid(String longURL) {
 		boolean isValid = false;
 		try {
@@ -56,7 +68,15 @@ public class CompressURL implements ICompressURL {
 		return isValid;
 	}
 
-	private String insertWithPreparedStatement(Connection connection, String longURL) throws SQLException {
+	/**
+	 * inserts the URL and returns the DB ID to use as the shortened URL key
+	 * 
+	 * @param connection
+	 * @param longURL
+	 * @return String
+	 * @throws SQLException
+	 */
+	private String insertURL(Connection connection, String longURL) throws SQLException {
 		String id = null;
 		PreparedStatement insertPreparedStatement = null;
 		PreparedStatement selectPreparedStatement = null;
