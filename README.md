@@ -21,7 +21,7 @@ This application uses an in-memory H2 databse for simplicity and to reduce exter
 To access the application: 
   http://localhost:8080 (if your default Jetty port is something else you will need to use that)
   
-  ### Assumptions
+  ## Assumptions
   You must enter a fully qualified URL (i.e. http://apple.com) on index.html or you will get a friendly error
   
   Based on the example provided (i.e. http://localhost:9000/1), I assumed that it was fine to use a auto generated DB ID in the URL         instead of converting the DB ID to a base 62 alphanumeric. 
